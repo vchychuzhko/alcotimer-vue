@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import Header from './components/Header.vue'
-import Footer from './components/Footer.vue'
-
 import Timer from './components/Timer.vue'
 </script>
 
@@ -11,8 +9,6 @@ import Timer from './components/Timer.vue'
   <main>
     <Timer />
   </main>
-
-  <Footer />
 </template>
 
 <style scoped></style>
