@@ -7,11 +7,29 @@ import MenuCopyright from '@/components/Menu/MenuCopyright.vue'
 const active = ref<boolean>(false)
 const menu = ref<HTMLElement>()
 
+function isInsideInteractiveElement(element: HTMLElement): boolean {
+  const parent = element.parentElement as HTMLElement
+
+  if (element.tagName === 'BODY') return false
+
+  if (['A', 'BUTTON'].includes(element.tagName)) return true
+
+  return isInsideInteractiveElement(parent)
+}
+
 const openMenu = () => {
   active.value = true
 }
 const closeMenu = () => {
   active.value = false
+}
+
+const toggleMenu = () => {
+  if (!active.value) {
+    openMenu()
+  } else {
+    closeMenu()
+  }
 }
 
 const handleKeyboard = (event: KeyboardEvent) => {
@@ -21,21 +39,13 @@ const handleKeyboard = (event: KeyboardEvent) => {
       break
     case 'm':
     case 'ь':
-      openMenu()
+      toggleMenu()
   }
 }
 const handleOutsideClick = (event: MouseEvent) => {
   const target = event.target as HTMLElement
 
-  if (!menu.value?.contains(target) && !['A', 'BUTTON'].includes(target.tagName)) {
-    closeMenu()
-  }
-}
-
-const toggleMenu = () => {
-  if (!active.value) {
-    openMenu()
-  } else {
+  if (!menu.value?.contains(target) && !isInsideInteractiveElement(target)) {
     closeMenu()
   }
 }
@@ -65,7 +75,7 @@ onMounted(() => {
 
 <style scoped>
 .menu {
-  background: var(--vt-c-text-dark-2);
+  background: rgba(235, 235, 235, 0.96);
   height: 100%;
   left: 0;
   max-width: 480px;
@@ -73,7 +83,7 @@ onMounted(() => {
   top: 0;
   transform: translateX(-100%);
   transition: transform 0.3s ease-in-out;
-  width: calc(100% - 30px - 2rem); /* 30px button + 2*1rem inline padding */
+  width: 100%;
 
   --menu-button-color: var(--vt-c-black-soft);
   --menu-button-size: 30px;
@@ -83,9 +93,13 @@ onMounted(() => {
 }
 
 .menu__button {
-  left: calc(100% + 1rem); /* 1rem inline padding */
+  right: calc(-1 * (30px + 1rem)); /* 30px button + 1rem inline padding */
   position: absolute;
   top: 0.5rem;
+  transition: right 0.3s ease-in-out;
+}
+.menu.active .menu__button {
+  right: 1rem;
 }
 
 .menu__body {
@@ -111,7 +125,7 @@ onMounted(() => {
 
 @media (prefers-color-scheme: dark) {
   .menu {
-    background: var(--vt-c-text-light-2);
+    background: rgba(60, 60, 60, 0.96);
 
     --menu-button-color: var(--vt-c-white-soft);
   }
