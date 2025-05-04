@@ -1,11 +1,20 @@
 <script setup lang="ts">
+import Button from 'primevue/button'
+
 defineProps<{
   active: boolean
 }>()
 </script>
 
 <template>
-  <button class="menu-button" :class="{ active }" title="Menu (M)">
+  <Button
+    class="menu-button"
+    :class="{ active }"
+    title="Menu"
+    icon="pi"
+    variant="text"
+    severity="contrast"
+  >
     <svg
       class="menu-button__icon"
       viewBox="0 0 80 80"
@@ -17,24 +26,19 @@ defineProps<{
       <path d="M8 40 h64" />
       <path d="M8 60 h64" />
     </svg>
-  </button>
+  </Button>
 </template>
 
 <style scoped>
 .menu-button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  height: var(--menu-button-size);
-  padding: 0;
-  width: var(--menu-button-size);
+  --p-button-padding-y: 0.25rem;
 }
 
 .menu-button__icon {
-  height: 100%;
-  stroke: var(--menu-button-color);
+  height: 30px;
+  stroke: currentColor;
   stroke-width: 8px;
-  width: 100%;
+  width: 30px;
 }
 
 .menu-button__icon path:nth-child(1),
