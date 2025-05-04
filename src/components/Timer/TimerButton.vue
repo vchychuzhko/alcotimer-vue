@@ -27,11 +27,7 @@ watch(
 <template>
   <div class="timer-button-container">
     <TimerButtonLoader class="timer-button__loader" :class="{ show: active }" />
-    <button
-      class="timer-button"
-      :title="active ? 'Pause (Space)' : 'Play (Space)'"
-      @click="emit('click')"
-    >
+    <button class="timer-button" :title="active ? 'Pause' : 'Play'" @click="emit('click')">
       <svg
         class="timer-button__icon"
         viewBox="0 0 40 40"
@@ -64,6 +60,7 @@ watch(
 
 <style scoped>
 .timer-button-container {
+  background-color: var(--color-background);
   border: 2px solid var(--color-border);
   border-radius: 50%;
   padding: 10px;
@@ -74,7 +71,7 @@ watch(
   inset: 12px;
   position: absolute;
   transition: inset 0.3s;
-  z-index: -1;
+  z-index: 0;
 }
 .timer-button__loader.show {
   inset: 0;
@@ -88,7 +85,9 @@ watch(
   height: var(--button-size);
   outline: none;
   padding: 0;
+  position: relative;
   width: var(--button-size);
+  z-index: 1;
 
   -webkit-tap-highlight-color: transparent;
 }
